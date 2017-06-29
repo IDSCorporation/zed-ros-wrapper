@@ -570,11 +570,11 @@ namespace zed_wrapper {
                     if (odom_SubNumber > 0) {
                         zed->getPosition(pose);
                         publishOdom(pose, pub_odom, odometry_frame_id, t);
+		
+			if(publish_tf)
+			  //Note, the frame is published, but its values will only change if someone has subscribed to odom
+			  publishTrackedFrame(pose, transform_odom_broadcaster, odometry_transform_frame_id, t); //publish the tracked Frame
                     }
-
-                    //Note, the frame is published, but its values will only change if someone has subscribed to odom
-                    if(publish_tf)
-		      publishTrackedFrame(pose, transform_odom_broadcaster, odometry_transform_frame_id, t); //publish the tracked Frame
 
                     loop_rate.sleep();
                 } else {
@@ -605,17 +605,17 @@ namespace zed_wrapper {
             string rgb_topic = "rgb/" + img_topic;
             string rgb_raw_topic = "rgb/" + img_raw_topic;
             string rgb_cam_info_topic = "rgb/camera_info";
-            rgb_frame_id = "/vo_base_link";//"/zed_current_frame";
+            rgb_frame_id = "/vo_camera_link";//"/zed_current_frame";
 
             string left_topic = "left/" + img_topic;
             string left_raw_topic = "left/" + img_raw_topic;
             string left_cam_info_topic = "left/camera_info";
-            left_frame_id = "/vo_base_link";//"/zed_current_frame";
+            left_frame_id = "/vo_camera_link";//"/zed_current_frame";
 
             string right_topic = "right/" + img_topic;
             string right_raw_topic = "right/" + img_raw_topic;
             string right_cam_info_topic = "right/camera_info";
-            right_frame_id = "/vo_base_link";//"/zed_current_frame";
+            right_frame_id = "/vo_camera_link";//"/zed_current_frame";
 
             string depth_topic = "depth/";
             if (openniDepthMode)
@@ -627,11 +627,11 @@ namespace zed_wrapper {
             depth_frame_id = "/zed_depth_frame";
 
             string point_cloud_topic = "point_cloud/cloud_registered";
-            cloud_frame_id = "/vo_base_link";//"/zed_current_frame";
+            cloud_frame_id = "/vo_camera_link";//"/zed_current_frame";
 
             string odometry_topic = "odom";
             odometry_frame_id = "/odom";//"/zed_initial_frame";
-            odometry_transform_frame_id = "/vo_base_link";//"/zed_current_frame";
+            odometry_transform_frame_id = "/vo_camera_link";//"/zed_current_frame";
 
             nh = getMTNodeHandle();
             nh_ns = getMTPrivateNodeHandle();
