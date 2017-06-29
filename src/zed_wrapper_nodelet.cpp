@@ -461,7 +461,8 @@ namespace zed_wrapper {
                     ros::Time t = ros::Time::now(); // Get current time
 
                     grabbing = true;
-                    if (computeDepth) {
+                    if (computeDepth) 
+		    {
                         int actual_confidence = zed->getConfidenceThreshold();
                         if (actual_confidence != confidence)
                             zed->setConfidenceThreshold(confidence);
