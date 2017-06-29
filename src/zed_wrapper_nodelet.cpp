@@ -235,7 +235,7 @@ namespace zed_wrapper {
 
             geometry_msgs::TransformStamped transformStamped;
             transformStamped.header.stamp = ros::Time::now();
-            transformStamped.header.frame_id = "local_origin";//"zed_initial_frame";
+            transformStamped.header.frame_id = "odom";//"zed_initial_frame";
             transformStamped.child_frame_id = odometry_transform_frame_id;
             sl::Translation translation = pose.getTranslation();
             transformStamped.transform.translation.x = translation(2);
@@ -630,7 +630,7 @@ namespace zed_wrapper {
             cloud_frame_id = "/vo_base_link";//"/zed_current_frame";
 
             string odometry_topic = "odom";
-            odometry_frame_id = "/local_origin";//"/zed_initial_frame";
+            odometry_frame_id = "/odom";//"/zed_initial_frame";
             odometry_transform_frame_id = "/vo_base_link";//"/zed_current_frame";
 
             nh = getMTNodeHandle();
