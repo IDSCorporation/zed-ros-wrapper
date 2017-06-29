@@ -423,11 +423,12 @@ namespace zed_wrapper {
             sl::TrackingParameters trackParams;
             trackParams.area_file_path = odometry_DB.c_str();
 
+	    bool publish_tf = false;
 
             sl::Mat leftZEDMat, rightZEDMat, depthZEDMat;
             // Main loop
             while (nh_ns.ok()) {
-                // Check for subscribers
+		// Check for subscribers
                 int rgb_SubNumber = pub_rgb.getNumSubscribers();
                 int rgb_raw_SubNumber = pub_raw_rgb.getNumSubscribers();
                 int left_SubNumber = pub_left.getNumSubscribers();
@@ -437,7 +438,7 @@ namespace zed_wrapper {
                 int depth_SubNumber = pub_depth.getNumSubscribers();
                 int cloud_SubNumber = pub_cloud.getNumSubscribers();
                 int odom_SubNumber = pub_odom.getNumSubscribers();
-                bool runLoop = (rgb_SubNumber + rgb_raw_SubNumber + left_SubNumber + left_raw_SubNumber + right_SubNumber + right_raw_SubNumber + depth_SubNumber + cloud_SubNumber + odom_SubNumber) > 0;
+		bool runLoop = (rgb_SubNumber + rgb_raw_SubNumber + left_SubNumber + left_raw_SubNumber + right_SubNumber + right_raw_SubNumber + depth_SubNumber + cloud_SubNumber + odom_SubNumber) > 0;
 
 
                 runParams.enable_point_cloud = false;
@@ -572,12 +573,15 @@ namespace zed_wrapper {
                     }
 
                     //Note, the frame is published, but its values will only change if someone has subscribed to odom
-                    publishTrackedFrame(pose, transform_odom_broadcaster, odometry_transform_frame_id, t); //publish the tracked Frame
+                    if(publish_tf)
+		      publishTrackedFrame(pose, transform_odom_broadcaster, odometry_transform_frame_id, t); //publish the tracked Frame
 
                     loop_rate.sleep();
                 } else {
 
+		  if(publish_tf)
                     publishTrackedFrame(pose, transform_odom_broadcaster, odometry_transform_frame_id, ros::Time::now()); //publish the tracked Frame before the sleep
+		    
                     std::this_thread::sleep_for(std::chrono::milliseconds(10)); // No subscribers, we just wait
                 }
             } // while loop
