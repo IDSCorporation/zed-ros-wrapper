@@ -601,17 +601,17 @@ namespace zed_wrapper {
             string rgb_topic = "rgb/" + img_topic;
             string rgb_raw_topic = "rgb/" + img_raw_topic;
             string rgb_cam_info_topic = "rgb/camera_info";
-            rgb_frame_id = "/zed_current_frame";
+            rgb_frame_id = "/vo_base_link";//"/zed_current_frame";
 
             string left_topic = "left/" + img_topic;
             string left_raw_topic = "left/" + img_raw_topic;
             string left_cam_info_topic = "left/camera_info";
-            left_frame_id = "/zed_current_frame";
+            left_frame_id = "/vo_base_link";//"/zed_current_frame";
 
             string right_topic = "right/" + img_topic;
             string right_raw_topic = "right/" + img_raw_topic;
             string right_cam_info_topic = "right/camera_info";
-            right_frame_id = "/zed_current_frame";
+            right_frame_id = "/vo_base_link";//"/zed_current_frame";
 
             string depth_topic = "depth/";
             if (openniDepthMode)
@@ -623,11 +623,11 @@ namespace zed_wrapper {
             depth_frame_id = "/zed_depth_frame";
 
             string point_cloud_topic = "point_cloud/cloud_registered";
-            cloud_frame_id = "/zed_current_frame";
+            cloud_frame_id = "/vo_base_link";//"/zed_current_frame";
 
             string odometry_topic = "odom";
             odometry_frame_id = "/zed_initial_frame";
-            odometry_transform_frame_id = "/zed_current_frame";
+            odometry_transform_frame_id = "/vo_base_link";//"/zed_current_frame";
 
             nh = getMTNodeHandle();
             nh_ns = getMTPrivateNodeHandle();
