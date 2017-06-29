@@ -423,7 +423,7 @@ namespace zed_wrapper {
             sl::TrackingParameters trackParams;
             trackParams.area_file_path = odometry_DB.c_str();
 
-	    bool publish_tf = false;
+	    bool publish_tf = true;
 
             sl::Mat leftZEDMat, rightZEDMat, depthZEDMat;
             // Main loop
@@ -571,11 +571,11 @@ namespace zed_wrapper {
                     if (odom_SubNumber > 0) {
                         zed->getPosition(pose);
                         publishOdom(pose, pub_odom, odometry_frame_id, t);
-		
-			if(publish_tf)
+                    }
+                    
+                    if(publish_tf)
 			  //Note, the frame is published, but its values will only change if someone has subscribed to odom
 			  publishTrackedFrame(pose, transform_odom_broadcaster, odometry_transform_frame_id, t); //publish the tracked Frame
-                    }
 
                     loop_rate.sleep();
                 } else {
